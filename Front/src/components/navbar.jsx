@@ -25,7 +25,7 @@ export default function StickyNavbar() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
+        <a href="#" className="flex items-center font-ConcertOne text-[15px] text-txto">
           Inicio
         </a>
       </Typography>
@@ -35,7 +35,7 @@ export default function StickyNavbar() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
+        <a href="#" className="flex items-center font-ConcertOne text-[15px] text-txto">
           Servicios
         </a>
       </Typography>
@@ -45,48 +45,33 @@ export default function StickyNavbar() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
+        <a href="#" className="flex items-center font-ConcertOne text-[15px] text-txto">
           Contactos
         </a>
       </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Sobre nosotros
-        </a>
-      </Typography>
+
     </ul>
   );
 
   return (
-    <div className="w-full">
-      <Navbar className="sticky bg-primario top-0 z-10 w-full rounded-none px-4 py-2">
+    <div className="w-full m-0 p-0 rounded-none bg-primario border-none">
+      <Navbar className="sticky top-0 z-10 max-w-full border-none rounded-none px-4 py-2 bg-pri">
         <div className="flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
           href="#"
-          className="flex items-center gap-2 tracking-widest   mr-4 cursor-pointer py-2 text-[40px] font-semibold font-ConcertOne text-secundario">
-          <img src="/public/logoTomate.PNG" alt="Logo-Tomate" className="h-20 w-auto" />
+          className="flex items-center gap-2 tracking-wide mr-4 cursor-pointer py-2 px-4 text-[30px] font-bold font-ConcertOne bg-gradient-to-r from-start to-end bg-clip-text text-transparent">
           LimatchServ
         </Typography>
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
             <div className="flex items-center gap-x-1">
               <Button
-                variant="text"
-                size="sm"
-                className="hidden lg:inline-block"
-              >
+                className="hidden lg:inline-block text-black font-barlow rounded-none border-1 focus:outline-none bg-end border-gray-200 hover:bg-pri hover:text-ter focus:z-10 focus:ring-4 focus:ring-gray-100">
                 <span>Acceder</span>
               </Button>
               <Button
-                variant="gradient"
-                size="sm"
-                className="hidden lg:inline-block"
+                className="hidden lg:inline-block text-black font-barlow rounded-none border-1 focus:outline-none bg-end border-gray-200 hover:bg-pri hover:text-ter focus:z-10 focus:ring-4 focus:ring-gray-100"
               >
                 <span>Regístrate</span>
               </Button>
@@ -133,10 +118,10 @@ export default function StickyNavbar() {
         <MobileNav open={openNav}>
           {navList}
           <div className="flex items-center gap-x-1">
-            <Button fullWidth variant="text" size="sm" className="">
+            <Button fullWidth variant="text" size="sm" className="text-white font-barlow rounded-none bg-ter border-gray-200 hover:bg-pri hover:rounded-none hover:text-ter focus:z-10 focus:ring-0 focus:ring-gray-100 focus:outline-none">
               <span>Regístrate</span>
             </Button>
-            <Button fullWidth variant="gradient" size="sm" className="">
+            <Button fullWidth variant="text" size="sm" className="text-white font-barlow rounded-none bg-ter border-gray-200 hover:bg-pri hover:rounded-none hover:text-ter focus:z-10 focus:ring-0 focus:ring-gray-100 focus:outline-none">
               <span>Acceder</span>
             </Button>
           </div>
