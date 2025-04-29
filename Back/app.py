@@ -4,6 +4,8 @@ from flask_cors import CORS
 from config import Config
 from flask_migrate import Migrate
 from models.entities import db
+from routes.usuarios_routes import usuario_bp
+from routes.roles_routes import roles_bp
 
 def create_app():
   app = Flask(__name__)
@@ -11,6 +13,8 @@ def create_app():
   db.init_app(app)
   migrate = Migrate(app, db)
   CORS(app)
+  app.register_blueprint(usuario_bp)
+  app.register_blueprint(roles_bp)
 
   @app.route('/')
   def home():

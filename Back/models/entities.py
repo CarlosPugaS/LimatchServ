@@ -11,10 +11,14 @@ class Rol(db.Model):
 class Usuario(db.Model):
     __tablename__ = 'usuario'
     id_usuario = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
-    contrasena = db.Column(db.Text, nullable=False)
-    telefono = db.Column(db.String(20))
+    nombres = db.Column(db.String(50), nullable=False)
+    apellidos = db.Column(db.String(50), nullable=False)
+    rut= db.Column(db.String(12), unique=True, nullable=False)
+    email = db.Column(db.String(70), unique=True, nullable=False)
+    password = db.Column(db.Text, nullable=False)
+    telefono = db.Column(db.String(20), nullable=False)
+    instagram_url = db.Column(db.String(100))
+    facebook_url = db.Column(db.String(100))
     rol_id = db.Column(db.Integer, db.ForeignKey('rol.id_rol'), nullable=False)
 
 class CategoriaServicio(db.Model):
