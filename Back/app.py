@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 from models.entities import db
 from routes.usuarios_routes import usuario_bp
 from routes.roles_routes import roles_bp
+from routes.presupuestos_routes import presupuestos_bp
 
 def create_app():
   app = Flask(__name__)
@@ -15,6 +16,7 @@ def create_app():
   CORS(app)
   app.register_blueprint(usuario_bp)
   app.register_blueprint(roles_bp)
+  app.register_blueprint(presupuestos_bp)
 
   @app.route('/')
   def home():
