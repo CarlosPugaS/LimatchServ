@@ -23,7 +23,7 @@ def solicitud_presupuesto():
   nuevo_presupuesto = Presupuesto(
     cliente_id= data['cliente_id'],
     prestador_id= data['prestador_id'],
-    descripcion= data['descripcion'],
+    descripcion_solicitud= data['descripcion_solicitud'],
     fecha_creacion= datetime.now(timezone.utc),
     estado = 'pendiente'
   )
@@ -31,12 +31,12 @@ def solicitud_presupuesto():
   db.session.add(nuevo_presupuesto)
   db.session.commit()
 
-  return jsonify({"message":"Su presupuesto ha sido solicitado exitosamente"}), 201
+  return jsonify({"message":"Su presupuesto ha sido solicitado correctamente"}), 201
 
-@presupuestos_bp.route('/int:<id>', methods=['PUT'])
+@presupuestos_bp.route('/<int:id>', methods=['PUT'])
 def enviar_presupuesto(id):
   data = request.get_json()
-  presupuesto = presupuesto.query.get(id)
+  presupuesto = Presupuesto.query.get(id)
 
   if not presupuesto:
     return jsonify({"message":"Presupuesto no encontrado"}), 404
@@ -44,8 +44,12 @@ def enviar_presupuesto(id):
   if prestador.rol_id != 2:
     return jsonify({"message":"Acción no autorizada"}), 403
   
-  presupuesto.monto = data.get("monto")
-  presupuesto.estado = "enviado"
+  presupuesto.monto = data['monto']
+  presupuesto.descripcion_respuesta = data['descripcion_respuesta']
+  presupuesto.estado = 'enviado'
+
   db.session.commit()
 
-  return jsonify({"message":"Presupuesto enviado correctamente"}), 200
+  return jsonify({"message":"Su presupuesto ha sido enviado correctamente"}), 200
+
+

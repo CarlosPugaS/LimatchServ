@@ -38,8 +38,9 @@ class Presupuesto(db.Model):
     id_presupuesto = db.Column(db.Integer, primary_key=True)
     prestador_id = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'), nullable=False)
     cliente_id = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'), nullable=False)
-    descripcion = db.Column(db.Text, nullable=False)
-    monto = db.Column(db.Numeric(10, 2), nullable=False)
+    descripcion_solicitud = db.Column(db.Text, nullable=False)
+    descripcion_respuesta = db.Column(db.Text, nullable=True)
+    monto = db.Column(db.Numeric(10, 2), nullable=True)
     fecha_creacion = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     estado = db.Column(db.String(20), default='pendiente')
 
