@@ -52,4 +52,44 @@ def enviar_presupuesto(id):
 
   return jsonify({"message":"Su presupuesto ha sido enviado correctamente"}), 200
 
+@presupuestos_bp.route('/', methods=['GET'])
+def listar_presupuestos():
+  cliente_id = request.args.get('client_id',type=int)
+  prestador_id  = request.args.get('prestador_id',type=int)
 
+  query = Presupuesto.query
+
+  if cliente_id:
+    query = query.filter_by(cliente_id=client_id)
+  if prestador_id:
+    query = query.filter_by(prestador_id=prestador_id)
+  presupuestos = query.all()
+  resultado= []
+  for p in presupuestos:
+    resultado.append({
+      "id_presupuesto": p.id_presupuesto,
+      "cliente_id": p.cliente_id,
+      "prestador_id": p.prestador_id,
+      "descripcion_solicitud": p.descripcion_solicitud,
+      "descripcion_respuesta": p.descripcion_respuesta,
+      "monto": float(p.monto) if p.monto else None,
+      "fecha_creacion": p.fecha_creacion.strftime("%d-%m-%YHora%H:%M:%S"),
+      "estado": p.estado
+    })
+    return jsonify(resultado),200
+  
+@presupuestos_bp.route('/<int:id>', methods=['GET'])
+def obtener_presupuesto_id(id):
+  presupuesto = Presupuesto.query.get(id)
+  if not presupuesto:
+    return jsonify({"message":"Presupuesto no encontrado"}),404
+  return jsonify({
+    "id_presupuesto": presupuesto.id_presupuesto,
+    "cliente_id": presupuesto.cliente_id,
+    "prestador_id": presupuesto.prestador_id,
+    "descripcion_solicitud": presupuesto.descripcion_solicitud,
+    "descripcion_respuesta": presupuesto.descripcion_respuesta,
+    "monto": float(presupuesto.monto) if presupuesto.monto else None,
+    "fecha_creacion": presupuesto.fecha_creacion.strftime("%d-%m-%YT%H:%M:%SZ"),
+    "estado": presupuesto.estado
+  }), 200

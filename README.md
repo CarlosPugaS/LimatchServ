@@ -43,7 +43,7 @@ LimatchServ/
 
 - [x] Estructura base del frontend y backend
 - [x] Diagrama entidad-relación (ER)
-- [ ] Modelo de usuario
+- [x] Modelo de usuario
 - [ ] Registro y autenticación con JWT
 - [ ] Sistema de publicación y búsqueda de servicios
 - [ ] Sistema de contratación y reseñas
@@ -78,7 +78,7 @@ python app.py
 
 ## 📆 Última actualización
 
-22/04/2025
+01/05/2025
 
 ---
 
