@@ -76,7 +76,7 @@ def listar_presupuestos():
       "fecha_creacion": p.fecha_creacion.strftime("%d-%m-%YHora%H:%M:%S"),
       "estado": p.estado
     })
-    return jsonify(resultado),200
+  return jsonify(resultado),200
   
 @presupuestos_bp.route('/<int:id>', methods=['GET'])
 def obtener_presupuesto_id(id):

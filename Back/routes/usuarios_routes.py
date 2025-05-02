@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from models.entities import Usuario, db
+from extensions import bcrypt
 
 usuario_bp = Blueprint('usuarios', __name__, url_prefix='/api/usuarios')
 
@@ -25,26 +26,32 @@ def listar_usuarios():
 @usuario_bp.route('/', methods=['POST'])
 def crear_usuario():
   data = request.get_json()
-  # validando RUT
+  # validando si el RUT existe en la base de datos.
   rut_existente = Usuario.query.filter_by(rut=data['rut']).first()
   if rut_existente:
     return jsonify({"message":" El RUT ingresado ya posee una cuenta activa"}),400
-  # Validando Correo electronico
+  # Validando si el correo existe en la base de datos.
   email_existente = Usuario.query.filter_by(email=data['email']).first()
   if email_existente:
     return jsonify({"message":"El correo electronico ya existe"}),400
   
+  # Se establece una variable intermedia para almacenar la contraseña encriptada.
+  # Se utiliza Bcrypt para encriptar la contraseña antes de almacenarla en la base de datos. 
+  password = data['password']
+  hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+
   nuevo_usuario = Usuario(
     nombres=data['nombres'],
     apellidos=data['apellidos'],
     rut=data['rut'],
     email=data['email'].lower(),
-    password=data['password'],
+    password = hashed_password,
     telefono=data['telefono'],
     instagram_url=data.get('instagram_url', ''),
     facebook_url=data.get('facebook_url', ''),
     rol_id=data['rol_id']
   )
+
   db.session.add(nuevo_usuario)
   db.session.commit()
   return jsonify({"message": "Usuario creado exitosamente"}),201
