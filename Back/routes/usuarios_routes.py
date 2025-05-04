@@ -1,11 +1,13 @@
 from flask import Blueprint, request, jsonify
 from models.entities import Usuario, db
 from extensions import bcrypt
+from utils.jwt_utils import jwt_required
 
 usuario_bp = Blueprint('usuarios', __name__, url_prefix='/api/usuarios')
 
 @usuario_bp.route('/', methods=['GET'])
-def listar_usuarios():
+@jwt_required
+def listar_usuarios(user):
   usuarios = Usuario.query.all()
   resultado = [
     {

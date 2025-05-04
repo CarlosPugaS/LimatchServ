@@ -60,7 +60,7 @@ def listar_presupuestos():
   query = Presupuesto.query
 
   if cliente_id:
-    query = query.filter_by(cliente_id=client_id)
+    query = query.filter_by(cliente_id=cliente_id)
   if prestador_id:
     query = query.filter_by(prestador_id=prestador_id)
   presupuestos = query.all()
@@ -93,3 +93,17 @@ def obtener_presupuesto_id(id):
     "fecha_creacion": presupuesto.fecha_creacion.strftime("%d-%m-%YT%H:%M:%SZ"),
     "estado": presupuesto.estado
   }), 200
+
+@presupuestos_bp.route('/<int:id>', methods=['DELETE'])
+def eliminar_presupuesto(user, id):
+  presupuesto = Presupuesto.query.get(id)
+
+  if not presupuesto:
+    return jsonify({"message":"Presupuesto no encontrado"}), 404
+  
+  if presupuesto.cliente_id != user.id_usuario:
+    return jsonify({"message":"Acción no autorizada"}), 403 
+  
+  db.session.delete(presupuesto)
+  db.session.commit()
+  return jsonify({"message":"Presupuesto eliminado correctamente"}), 200 

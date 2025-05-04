@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from models.entities import Usuario, db
 from flask import current_app
 import jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from extensions import bcrypt
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api')
@@ -12,7 +12,6 @@ def login():
   data = request.get_json()
   email = data.get('email')
   password = data.get('password')
-
 
   usuario = Usuario.query.filter_by(email=email).first()
   if not usuario:
@@ -26,10 +25,12 @@ def login():
   payload = {
     "id_usuario" : usuario.id_usuario,
     'rol_id' : usuario.rol_id,
-    'exp': datetime.now() + timedelta(hours=1)  # El token expirara en 1 hora
+    'exp': datetime.now(timezone.utc) + timedelta(hours=1)  # El token expirara en 1 hora
   }
 # Se establece el token JWT y la clave secreta definida en la configuracion de la aplicacion.
 # Se utiliza el algoritmo HS256 para la firma del token.
 # Se devuelve el token al cliente en formato JSON.
+  print("TOKEN PAYLOAD:", payload)
+  
   token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
   return jsonify({"token": token}), 200
