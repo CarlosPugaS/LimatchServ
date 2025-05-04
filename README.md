@@ -1,31 +1,36 @@
-<h1> Proyecto Full Stack </h1> 
+# 🚀 Proyecto Full Stack - LimatchServ
 
->[!IMPORTANT]
->LiMatchServ 
-Es una plataforma web pensada para conectar a personas que buscan servicios con prestadores en la comuna de Limache. El proyecto tiene como objetivo mejorar la visibilidad de trabajadores locales y facilitar a los usuarios encontrar y contratar servicios relacionados con el hogar y el bienestar.
+> **LimatchServ**  
+> Plataforma web pensada para conectar a personas que buscan servicios con prestadores locales en la comuna de Limache.  
+> Su misión es mejorar la visibilidad de trabajadores independientes y facilitar la contratación de servicios relacionados con el hogar y el bienestar.
 
 ---
-### Tecnologías utilizadas
+
+## 🛠️ Tecnologías utilizadas
 
 ### Frontend
-<div >
-	<code><img width="70" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/html.png" alt="HTML" title="HTML"/></code>
-	<code><img width="70" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/tailwind_css.png" alt="Tailwind CSS" title="Tailwind CSS"/></code>
-	<code><img width="70" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/vite.png" alt="Vite" title="Vite"/></code>
-	<code><img width="70" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/react.png" alt="React" title="React"/></code>
+
+<div>
+  <code><img width="70" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/vite.png" alt="Vite" title="Vite"/></code>
+  <code><img width="70" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/react.png" alt="React" title="React"/></code>
+  <code><img width="70" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/tailwind_css.png" alt="Tailwind CSS" title="Tailwind CSS"/></code>
 </div>
 
 ### Backend
-<div >
-	<code><img width="70" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/python.png" alt="Python" title="Python"/></code>
-	<code><img width="70" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/flask.png" alt="Flask" title="Flask"/></code>
-	<code><img width="70" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/postgresql.png" alt="PostgreSQL" title="PostgreSQL"/></code>
+
+<div>
+  <code><img width="70" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/python.png" alt="Python" title="Python"/></code>
+  <code><img width="70" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/flask.png" alt="Flask" title="Flask"/></code>
+  <code><img width="70" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/postgresql.png" alt="PostgreSQL" title="PostgreSQL"/></code>
 </div>
-<br>
-Otras tecnologías implementadas:<br>
-- Python-dotenv<br>
-- SQLAlchemy<br>
-- JWT (autenticación)<br>
+
+**Otras tecnologías implementadas:**
+- Python-dotenv
+- SQLAlchemy
+- Flask-Migrate
+- JWT (Autenticación)
+- Bcrypt (Hash de contraseñas)
+- CORS (Frontend ↔ Backend)
 
 ---
 
@@ -33,43 +38,51 @@ Otras tecnologías implementadas:<br>
 
 ```
 LimatchServ/
-├── front/      → Aplicación web (Vite + React)
-├── back/       → API REST (Flask + PostgreSQL)
+├── Front/      → Aplicación web (Vite + React)
+├── Back/       → API REST (Flask + PostgreSQL)
 ```
 
 ---
 
-## 🧠 Estado del proyecto
+## ✅ Estado del proyecto
 
-- [x] Estructura base del frontend y backend
-- [x] Diagrama entidad-relación (ER)
-- [x] Modelo de usuario
-- [ ] Registro y autenticación con JWT
-- [ ] Sistema de publicación y búsqueda de servicios
-- [ ] Sistema de contratación y reseñas
+- [x] Estructura base de frontend y backend
+- [x] Modelo entidad-relación (ER)
+- [x] Registro y login con JWT
+- [x] Hashing de contraseñas con bcrypt
+- [x] Creación y respuesta de presupuestos
+- [x] Flujo de match entre cliente y prestador
+- [x] Sistema de reseñas y calificaciones cruzadas
+- [ ] Filtro por categoría y especialidad
+- [ ] Panel de usuario (`/mi-perfil`)
+- [ ] Seguridad por rol (`@role_required`)
+- [ ] Tests y documentación API (pendiente)
 
 ---
 
-## 📝 Cómo correr el proyecto
+## 🧪 Cómo correr el proyecto
 
 ### 1. Clonar el repositorio
+
 ```bash
 git clone https://github.com/CarlosPugaS/limatchserv.git
 cd limatchserv
 ```
 
-### 2. Frontend
+### 2. Iniciar el frontend
+
 ```bash
 cd front
 npm install
 npm run dev
 ```
 
-### 3. Backend
+### 3. Iniciar el backend
+
 ```bash
 cd ../back
 python -m venv venv
-.\env\Scripts\activate
+venv\Scripts\activate
 pip install -r requirements.txt
 python app.py
 ```
@@ -78,11 +91,11 @@ python app.py
 
 ## 📆 Última actualización
 
-01/05/2025
+03/05/2025
 
 ---
 
-## 📌 Autor
+## 👨‍💻 Autor
 
 Desarrollado por **Carlos Puga Salinas**  
-[LinkedIn](https://www.linkedin.com/in/carlospugasalinas) | [GitHub](https://github.com/CarlosPugaS)
+[🔗 LinkedIn](https://www.linkedin.com/in/carlospugasalinas) | [🐙 GitHub](https://github.com/CarlosPugaS)
