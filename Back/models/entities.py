@@ -20,6 +20,7 @@ class Usuario(db.Model):
     instagram_url = db.Column(db.String(100))
     facebook_url = db.Column(db.String(100))
     rol_id = db.Column(db.Integer, db.ForeignKey('rol.id_rol'), nullable=False)
+    rol = db.relationship('Rol', backref='usuarios', lazy=True)
 
 class CategoriaServicio(db.Model):
     __tablename__ = 'categoria_servicio'

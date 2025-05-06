@@ -1,11 +1,15 @@
 from flask import Blueprint,request, jsonify 
 from models.entities import db, Presupuesto, Usuario
 from datetime import datetime, timezone
+from utils.role_required import role_required
+from utils.jwt_utils import jwt_required
 
 presupuestos_bp = Blueprint('presupuestos', __name__, url_prefix='/api/presupuestos')
 
 @presupuestos_bp.route('/', methods=['POST'])
-def solicitud_presupuesto():
+@jwt_required
+@role_required("cliente")
+def solicitud_presupuesto(user):
   data = request.get_json()
   
   cliente = Usuario.query.get(data.get("cliente_id"))
@@ -34,7 +38,9 @@ def solicitud_presupuesto():
   return jsonify({"message":"Su presupuesto ha sido solicitado correctamente"}), 201
 
 @presupuestos_bp.route('/<int:id>', methods=['PUT'])
-def enviar_presupuesto(id):
+@jwt_required
+@role_required("prestador")
+def enviar_presupuesto(user, id):
   data = request.get_json()
   presupuesto = Presupuesto.query.get(id)
 
@@ -63,6 +69,9 @@ def listar_presupuestos():
     query = query.filter_by(cliente_id=cliente_id)
   if prestador_id:
     query = query.filter_by(prestador_id=prestador_id)
+    
+  query = query.filter(Presupuesto.estado != 'descargado')
+
   presupuestos = query.all()
   resultado= []
   for p in presupuestos:
@@ -77,7 +86,7 @@ def listar_presupuestos():
       "estado": p.estado
     })
   return jsonify(resultado),200
-  
+
 @presupuestos_bp.route('/<int:id>', methods=['GET'])
 def obtener_presupuesto_id(id):
   presupuesto = Presupuesto.query.get(id)
@@ -95,15 +104,40 @@ def obtener_presupuesto_id(id):
   }), 200
 
 @presupuestos_bp.route('/<int:id>', methods=['DELETE'])
+@jwt_required
 def eliminar_presupuesto(user, id):
   presupuesto = Presupuesto.query.get(id)
 
   if not presupuesto:
     return jsonify({"message":"Presupuesto no encontrado"}), 404
   
-  if presupuesto.cliente_id != user.id_usuario:
-    return jsonify({"message":"Acción no autorizada"}), 403 
+  if user.id_usuario != presupuesto.cliente_id and user.id_usuario != presupuesto.prestador_id:
+    return jsonify({"message":"No autorizado para eliminar este presupuesto"}), 403
   
   db.session.delete(presupuesto)
   db.session.commit()
   return jsonify({"message":"Presupuesto eliminado correctamente"}), 200 
+
+@presupuestos_bp.route('/<int:id>/descartar', methods=['PUT'])
+@jwt_required
+@role_required("prestador")
+#Definimos la funcion con user(Usuario autenticado) y id(id del presupuesto)
+def descartar_presupuesto(user, id):
+  #Definimos la variable presupuesto con el id del presupuesto que buscamos en la base de datos.
+  presupuesto = Presupuesto.query.get(id)
+
+  if not presupuesto:
+    return jsonify({"message":"Presupuesto no encontrado"}),404
+  #Comparamos el id del prestador al que se asigno el presupuesto con el id 
+  #del usuario actualmente autenticado ⬇
+  if presupuesto.prestador.id != user.id_usuario:
+    return jsonify({"message":"No autirzado para descartar este presupuesto"}),403
+  #V
+  if presupuesto.estado != 'pendiente':
+    return jsonify({"message":"Esta presupuesto ya fue procesado"}),400
+  
+  #Actualizacion del estado del presupuesto a descartado.
+  presupuesto.estado = 'descartado'
+  db.session.commit()
+
+  return jsonify({"message":"Presupuesto descartado correctamente"}),200

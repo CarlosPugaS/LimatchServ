@@ -1,12 +1,14 @@
 from flask import Blueprint, request, jsonify
 from models.entities import db, CalificacionCliente, MatchTrabajo
 from utils.jwt_utils import jwt_required
+from utils.role_required import role_required
 from datetime import datetime, timezone
 
 calificaciones_bp = Blueprint('calificaciones', __name__, url_prefix='/api/calificaciones')
 
 @calificaciones_bp.route('/', methods=['POST'])
 @jwt_required
+@role_required("prestador")
 def crear_calificacion(user):
   data = request.get_json()
 
