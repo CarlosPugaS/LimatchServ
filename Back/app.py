@@ -19,7 +19,7 @@ def create_app():
 
   db.init_app(app)
   bcrypt.init_app(app)
-
+  
   migrate = Migrate(app, db)
   CORS(app)
 
