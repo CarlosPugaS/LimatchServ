@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
-from models.entities import Usuario, db
-from extensions import bcrypt
-from utils.jwt_utils import jwt_required
+from flask_jwt_extended import jwt_required
+from extensions import bcrypt, db
 from datetime import datetime
 
 usuario_bp = Blueprint('usuarios', __name__, url_prefix='/api/usuarios')

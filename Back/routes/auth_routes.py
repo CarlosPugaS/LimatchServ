@@ -1,9 +1,8 @@
 from flask import Blueprint, request, jsonify
-from models.entities import Usuario, db
+from models.entities import Usuario
 from flask import current_app
-import jwt
 from datetime import datetime, timedelta, timezone
-from extensions import bcrypt
+from extensions import bcrypt, jwt, db
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api')
 

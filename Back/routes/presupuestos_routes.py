@@ -1,15 +1,17 @@
 from flask import Blueprint,request, jsonify 
 from models.entities import db, Presupuesto, Usuario
 from datetime import datetime, timezone
-from utils.role_required import role_required
-from utils.jwt_utils import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from models.mixins import TimeStampMixin
 
 presupuestos_bp = Blueprint('presupuestos', __name__, url_prefix='/api/presupuestos')
 
 @presupuestos_bp.route('/', methods=['POST'])
 @jwt_required
-@role_required("cliente")
-def solicitud_presupuesto(user):
+def solicitud_presupuesto():
+  current_user_id = get_jwt_identity()
+  user = Usuario.query.get(current_user_id)
+  
   data = request.get_json()
   
   cliente = Usuario.query.get(data.get("cliente_id"))
@@ -39,7 +41,6 @@ def solicitud_presupuesto(user):
 
 @presupuestos_bp.route('/<int:id>', methods=['PUT'])
 @jwt_required
-@role_required("prestador")
 def enviar_presupuesto(user, id):
   data = request.get_json()
   presupuesto = Presupuesto.query.get(id)
@@ -120,7 +121,6 @@ def eliminar_presupuesto(user, id):
 
 @presupuestos_bp.route('/<int:id>/descartar', methods=['PUT'])
 @jwt_required
-@role_required("prestador")
 #Definimos la funcion con user(Usuario autenticado) y id(id del presupuesto)
 def descartar_presupuesto(user, id):
   #Definimos la variable presupuesto con el id del presupuesto que buscamos en la base de datos.

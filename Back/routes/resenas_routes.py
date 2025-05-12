@@ -1,14 +1,12 @@
 from flask import Blueprint, request, jsonify
 from models.entities import db, Resena, MatchTrabajo
-from utils.jwt_utils import jwt_required
-from utils.role_required import role_required
+from flask_jwt_extended import jwt_required
 from datetime import datetime, timezone 
 
 resenas_bp = Blueprint('resenas', __name__, url_prefix= '/api/resenas')
 
 @resenas_bp.route('/', methods=['POST'])
 @jwt_required
-@role_required("cliente")
 def crear_resena(user):
   data = request.get_json()
 

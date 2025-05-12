@@ -1,14 +1,12 @@
 from flask import Blueprint, request, jsonify
 from models.entities import db, MatchTrabajo, Presupuesto
-from utils.jwt_utils import jwt_required
-from utils.role_required import role_required
+from flask_jwt_extended import jwt_required
 from datetime import datetime, timezone
 
 match_bp = Blueprint('match', __name__, url_prefix='/api/match')
 
 @match_bp.route('/', methods=['POST'])
 @jwt_required
-@role_required("cliente")
 def crear_match(user):
   data = request.get_json()
   presupuesto_id = data.get('presupuesto_id')
