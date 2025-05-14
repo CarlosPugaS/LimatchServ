@@ -1,5 +1,5 @@
 from enum import Enum
-from models.mixins import TimeStampMixin
+from utils.mixin import TimeStampMixin
 from sqlalchemy.schema import CheckConstraint
 from extensions import db
 
@@ -78,7 +78,7 @@ class Resena(db.Model, TimeStampMixin):
 class Calificacion(db.Model, TimeStampMixin):
     __tablename__ = 'calificacion'
     id_calificacion = db.Column(db.Integer, primary_key=True)
-    match_id = db.Column(db.Integer, db.ForeignKey('match_trabajo.id_match') nullable=False)
+    match_id = db.Column(db.Integer, db.ForeignKey('match_trabajo.id_match'), nullable=False)
     autor_id = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'), nullable=False)
     receptor_id = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'), nullable=False)
     puntuacion = db.Column(db.Integer, nullable=False)
