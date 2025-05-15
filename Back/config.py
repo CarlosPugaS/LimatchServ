@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class Config:
     SQLALCHEMY_DATABASE_URI = (
         f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@"

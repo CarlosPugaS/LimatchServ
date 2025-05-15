@@ -3,12 +3,14 @@ from utils.mixin import TimeStampMixin
 from sqlalchemy.schema import CheckConstraint
 from extensions import db
 
+
 class EstadoPresupuesto(Enum):
-    ENVIADO = 'enviado' # Ciente envia la solicitud al prestador
-    PENDIENTE = 'pendiente' # Prestador envia el presupuesto al cliente y queda pendiente de aceptación
-    RECHAZADO = 'rechazado' # Prestador rechaza la solicitud o cliente rechaza el presupuesto
-    EN_EJECUCION = 'en_ejecucion' # cliente acepta el presupuesto y se inicia el trabajo
-    FINALIZADO = 'finalizado' # Cliente marca el trabajo como finalizado
+    ENVIADO = 'enviado'# Ciente envia la solicitud al prestador
+    PENDIENTE = 'pendiente'# Prestador envia el presupuesto al cliente y queda pendiente de aceptación
+    RECHAZADO = 'rechazado'# Prestador rechaza la solicitud o cliente rechaza el presupuesto
+    EN_EJECUCION = 'en_ejecucion'# cliente acepta el presupuesto y se inicia el trabajo
+    FINALIZADO = 'finalizado'# Cliente marca el trabajo como finalizado
+
 
 class Rol(db.Model):
     __tablename__ = 'rol'
@@ -18,26 +20,32 @@ class Rol(db.Model):
     def __repr__(self):
         return f'<Rol {self.nombre}>'
 
+
 class Usuario(db.Model, TimeStampMixin):
     __tablename__ = 'usuario'
     id_usuario = db.Column(db.Integer, primary_key=True)
+    foto_url = db.Column(db.String(100), default='/static/img/defaul_avatar.png', nullable=False)
     nombres = db.Column(db.String(50), nullable=False)
     apellidos = db.Column(db.String(50), nullable=False)
     fecha_nacimiento = db.Column(db.Date, nullable=False)
-    rut= db.Column(db.String(12), unique=True, nullable=False)
+    rut = db.Column(db.String(12), unique=True, nullable=False)
     email = db.Column(db.String(70), unique=True, nullable=False)
+    descripcion = db.Column(db.String(255), default='')
     password = db.Column(db.Text, nullable=False)
     telefono = db.Column(db.String(20), nullable=False)
     instagram_url = db.Column(db.String(100))
     facebook_url = db.Column(db.String(100))
+    web_url = db.Column(db.String(100), default='')
     rol_id = db.Column(db.Integer, db.ForeignKey('rol.id_rol'), nullable=False)
     rol = db.relationship('Rol', backref='usuarios', lazy=True)
+
 # Relaciones inversas entre presupuestos y los usuarios como cliente y prestador, para retornar los presupuestos asociados a cada usuario.
     presupuestos_como_cliente = db.relationship('Presupuesto', foreign_keys='Presupuesto.cliente_id', backref='cliente', lazy=True)
     presupuestos_como_prestador = db.relationship('Presupuesto', foreign_keys='Presupuesto.prestador_id', backref='prestador', lazy=True)
 
     def __repr__(self):
         return f'<Usuario {self.nombres} {self.apellidos}>'
+
 
 class Presupuesto(db.Model, TimeStampMixin):
     __tablename__ = 'presupuesto'
@@ -54,6 +62,7 @@ class Presupuesto(db.Model, TimeStampMixin):
     def __repr__(self):
         return f'<Presupuesto {self.id_presupuesto} - estado: {self.estado}>'
 
+
 class MatchTrabajo(db.Model, TimeStampMixin):
     __tablename__ = 'match_trabajo'
     id_match = db.Column(db.Integer, primary_key=True)
@@ -62,6 +71,7 @@ class MatchTrabajo(db.Model, TimeStampMixin):
     resena = db.relationship('Resena', backref='match', uselist=False, lazy=True)
     calificaciones = db.relationship('Calificacion', backref='match', lazy=True)
     presupuesto = db.relationship('Presupuesto', backref=db.backref('match', uselist=False, lazy=True))
+
 
 class Resena(db.Model, TimeStampMixin):
     __tablename__ = 'resena'
@@ -73,7 +83,7 @@ class Resena(db.Model, TimeStampMixin):
 
     def __repr__(self):
         return f'<Reseña del cliente {self.cliente_id} para el prestador {self.prestador_id}>'
-    
+
 
 class Calificacion(db.Model, TimeStampMixin):
     __tablename__ = 'calificacion'
@@ -93,3 +103,13 @@ class Calificacion(db.Model, TimeStampMixin):
 
     def __repr__(self):
         return f'<Calificación de {self.autor_id} a {self.receptor_id} con {self.puntuacion} estrellas>'
+
+
+class ImagenGaleria(db.Model, TimeStampMixin):
+    __tablename__ = 'galeria_usuario'
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    imagen_url = db.Column(db.String(255), nullable=False)
+    descripcion = db.Column(db.String(255), default='')
+
+    usuario = db.relationship('Usuario', backref='galeria')
